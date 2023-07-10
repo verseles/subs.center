@@ -3,7 +3,7 @@
     <q-list>
       <q-item v-for="item in items" :key="item.id" class="q-my-sm" clickable>
         <q-item-section avatar>
-          <q-avatar>
+          <q-avatar square>
             <img :src="favicon(item)" />
           </q-avatar>
         </q-item-section>
