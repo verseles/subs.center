@@ -38,10 +38,25 @@
 import { computed, reactive, ref } from 'vue'
 import AddSubscription from 'components/AddSubscription.vue'
 import { onlyHost } from 'components/onlyHost'
+import { useQuasar } from 'quasar'
 
+const $q = useQuasar()
 const deleteItem = ({ item, reset }) => {
-  items.splice(items.indexOf(item), 1)
-  // TODO show toast
+  const pos = items.indexOf(item)
+  items.splice(pos, 1)
+  $q.notify({
+    message: 'Subscription removed',
+    color: 'neutral',
+    avatar: favicon(item),
+    actions: [
+      {
+        label: 'undo',
+        handler: () => {
+          items.splice(pos, 0, item)
+        }
+      }
+    ]
+  })
   reset()
 }
 
