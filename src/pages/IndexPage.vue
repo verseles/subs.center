@@ -21,20 +21,15 @@
             <q-item-label>{{ item.title }}</q-item-label>
           </q-item-section>
 
-          <q-item-section side>
-            {{
-              new Currency({ amount: item.cost }).toString({
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 0
-              })
-            }}
-          </q-item-section>
+          <q-item-section side>{{ money(item.cost) }}</q-item-section>
         </q-item>
       </q-slide-item>
     </q-list>
     <q-page-sticky :offset="[18, 18]" position="bottom-right">
+      <div class="text-bold q-mr-sm inline-block">{{ money(totalCost) }}</div>
       <q-btn :ripple="false" color="accent" fab icon="add" @click="addDialog = true" />
     </q-page-sticky>
+
     <q-dialog v-model="addDialog" position="top">
       <add-subscription :items="items" @add="injectNewSubscription" />
     </q-dialog>
@@ -71,6 +66,12 @@ const deleteItem = ({ item, reset }) => {
 const favicon = (item) => `https://www.google.com/s2/favicons?domain=${onlyHost(item.url)}&sz=128`
 
 const totalCost = computed(() => items.reduce((acc, item) => acc + item.cost, 0))
+const money = (value) => {
+  return new Currency({ amount: value }).toString({
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0
+  })
+}
 const injectNewSubscription = (item) => items.push({ ...item, id: items.length + 1 })
 
 const addDialog = ref(false)
