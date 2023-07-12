@@ -21,7 +21,14 @@
             <q-item-label>{{ item.title }}</q-item-label>
           </q-item-section>
 
-          <q-item-section side> R$ {{ item.cost }}</q-item-section>
+          <q-item-section side>
+            {{
+              new Currency({ amount: item.cost }).toString({
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 0
+              })
+            }}
+          </q-item-section>
         </q-item>
       </q-slide-item>
     </q-list>
@@ -39,6 +46,7 @@ import { computed, reactive, ref } from 'vue'
 import AddSubscription from 'components/AddSubscription.vue'
 import { onlyHost } from 'components/onlyHost'
 import { useQuasar } from 'quasar'
+import { Currency } from '@depay/local-currency'
 
 const $q = useQuasar()
 const deleteItem = ({ item, reset }) => {
@@ -65,10 +73,6 @@ const favicon = (item) => `https://www.google.com/s2/favicons?domain=${onlyHost(
 const totalCost = computed(() => items.reduce((acc, item) => acc + item.cost, 0))
 const injectNewSubscription = (item) => items.push({ ...item, id: items.length + 1 })
 
-const removeSubscription = (id) => {
-  const index = items.findIndex((item) => item.id === id)
-  items.splice(index, 1)
-}
 const addDialog = ref(false)
 let items = reactive([
   {

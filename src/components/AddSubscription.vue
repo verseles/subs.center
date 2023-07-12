@@ -6,6 +6,7 @@ import {
   subsSuggestionsString
 } from 'components/subsSuggestions'
 import { onlyHost } from 'components/onlyHost'
+import { currencyPrefix } from 'components/currency'
 
 const props = defineProps({
   items: {
@@ -61,11 +62,21 @@ const filterSuggestions = (val, update) => {
     >
       <template v-slot:no-option>
         <q-item>
-          <q-item-section class="text-grey"> No suggestions found</q-item-section>
+          <q-item-section class="text-grey">No suggestions found</q-item-section>
         </q-item>
       </template>
     </q-select>
-    <q-input v-model="newSub.cost" class="q-mb-md" input-class="text-right" label="Monthly Cost" />
+    <q-input
+      v-model="newSub.cost"
+      :prefix="currencyPrefix()"
+      class="q-mb-md"
+      hide-hint
+      hint="simplify to integer values"
+      input-class="text-right"
+      label="Monthly Cost"
+      min="0"
+      type="number"
+    />
 
     <q-input
       v-model="newSub.url"
