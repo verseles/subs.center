@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header class="bg-accent text-white">
+    <q-header class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-icon name="subscriptions" />

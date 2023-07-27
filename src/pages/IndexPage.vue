@@ -27,7 +27,7 @@
     </q-list>
     <q-page-sticky :offset="[18, 18]" position="bottom-right">
       <div class="text-bold q-mr-sm inline-block">{{ money(totalCost) }}</div>
-      <q-btn :ripple="false" color="accent" fab icon="add" @click="addDialog = true" />
+      <q-btn :ripple="false" color="primary" fab icon="add" @click="addDialog = true" />
     </q-page-sticky>
 
     <q-dialog v-model="addDialog" position="top">

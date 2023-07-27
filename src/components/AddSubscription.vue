@@ -90,7 +90,7 @@ const filterSuggestions = (val, update) => {
       <q-btn
         v-close-popup
         :disable="!newSub.title || !newSub.cost || !newSub.url"
-        color="accent"
+        color="primary"
         flat
         label="Add"
         @click="$emit('add', newSub)"
