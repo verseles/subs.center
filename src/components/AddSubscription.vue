@@ -49,6 +49,7 @@ const filterSuggestions = (val, update) => {
     <q-select
       :model-value="newSub.title"
       :options="subsSuggestionsOptions"
+      autofocus
       fill-input
       hide-selected
       input-debounce="0"
