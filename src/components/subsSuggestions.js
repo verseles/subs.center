@@ -4,7 +4,8 @@ let subsSuggestions = [
   {
     title: 'Netflix',
     cost: 56,
-    url: 'netflix.com'
+    url: 'netflix.com',
+    square: true
   },
   {
     title: 'Spotify',
@@ -69,7 +70,8 @@ let subsSuggestions = [
   {
     title: 'Adobe Creative Cloud',
     cost: 124,
-    url: 'adobe.com'
+    url: 'adobe.com',
+    square: true
   },
   {
     title: 'Microsoft Office 365',
@@ -114,7 +116,8 @@ let subsSuggestions = [
   {
     title: 'Youtube Premium',
     cost: 21,
-    url: 'youtube.com'
+    url: 'youtube.com',
+    square: true
   },
   {
     title: 'Playstation',

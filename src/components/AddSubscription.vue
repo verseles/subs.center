@@ -17,7 +17,7 @@ const props = defineProps({
 
 defineEmits(['add', 'close'])
 
-const newSub = reactive({ title: '', cost: 0, url: '' })
+const newSub = reactive({ title: '', cost: 0, url: '', square: false })
 
 const selectNewSubscription = (item) => {
   const findSubItem = subsSuggestions.find(
@@ -27,15 +27,13 @@ const selectNewSubscription = (item) => {
     newSub.title = item
     newSub.cost = 0
     newSub.url = ''
+    newSub.square = false
   } else {
     newSub.title = findSubItem.title
     newSub.cost = findSubItem.cost
     newSub.url = findSubItem.url
+    newSub.square = findSubItem.square
   }
-
-  // newSub.title = findSubItem.label
-  // newSub.cost = findSubItem.cost
-  // newSub.url = findSubItem.url
 }
 const filterSuggestions = (val, update) => {
   return update(() => {
