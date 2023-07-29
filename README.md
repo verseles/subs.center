@@ -9,10 +9,10 @@ https://subs.center
 - [x] Add, delete subscriptions
 - [x] Templates for popular services
 - [x] Slide to delete
-- [ ] Show total cost
+- [x] Show total cost
 - [x] Currency symbol based on the browser locale
 - [ ] App icon
-- [ ] Local storage
+- [x] Local storage
 - [ ] PWA
 - [ ] Add, Edit, delete categories
 - [ ] Edit subscriptions
