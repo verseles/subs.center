@@ -11,9 +11,9 @@ https://subs.center
 - [x] Slide to delete
 - [x] Show total cost
 - [x] Currency symbol based on the browser locale
-- [ ] App icon
+- [x] App icon
 - [x] Local storage
-- [ ] PWA
+- [x] PWA
 - [ ] Add, Edit, delete categories
 - [ ] Edit subscriptions
 - [ ] Export, import data
@@ -26,8 +26,6 @@ https://subs.center
 ### Install the dependencies
 
 ```bash
-yarn
-# or
 npm install
 ```
 
@@ -36,29 +34,25 @@ npm install
 > hot-code reloading, error reporting, etc.
 
 ```bash
-quasar dev
+npm run dev
 ```
 
 ### Lint the files
 
 ```bash
-yarn lint
-# or
 npm run lint
 ```
 
 ### Format the files
 
 ```bash
-yarn format
-# or
 npm run format
 ```
 
-### Build the app for production
+### Build PWA for production
 
 ```bash
-quasar build
+npm run build
 ```
 
 ### Customize the configuration
