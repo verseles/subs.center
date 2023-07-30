@@ -40,75 +40,11 @@
 import { computed, onBeforeMount, reactive, ref, watchPostEffect } from 'vue'
 import AddSubscription from 'components/AddSubscription.vue'
 import { onlyHost } from 'components/onlyHost'
+import { welcomeItems } from 'components/welcomeItems'
 import { useQuasar } from 'quasar'
 import { Currency } from '@depay/local-currency'
 
-const welcomeItems = reactive([
-  {
-    id: 1,
-    title: 'Netflix',
-    cost: 56,
-    url: 'netflix.com',
-    square: true
-  },
-  {
-    id: 2,
-    title: 'Spotify',
-    cost: 16,
-    url: 'spotify.com'
-  },
-  {
-    id: 3,
-    title: 'Amazon Prime',
-    cost: 10,
-    url: 'primevideo.com'
-  },
-  {
-    id: 4,
-    title: 'Disney+',
-    cost: 27,
-    url: 'disneyplus.com'
-  },
-  {
-    id: 5,
-    title: 'HBO Max',
-    cost: 10,
-    url: 'hbomax.com'
-  },
-  {
-    id: 6,
-    title: 'Apple Music',
-    cost: 17,
-    url: 'music.apple.com'
-  },
-  {
-    id: 7,
-    title: 'YouTube Premium',
-    cost: 21,
-    url: 'youtube.com',
-    square: true
-  },
-  {
-    id: 8,
-    title: 'Twitch',
-    cost: 0,
-    url: 'twitch.tv'
-  },
-  {
-    id: 9,
-    title: 'Discord Nitro',
-    cost: 28,
-    url: 'discord.com'
-  },
-  {
-    id: 10,
-    title: 'Apple TV+',
-    cost: 14,
-    url: 'apple.com'
-  }
-])
-
-let items = welcomeItems
+let items = reactive(welcomeItems)
 
 onBeforeMount(() => {
   const savedItems = $q.localStorage.getItem('subscriptions')
@@ -152,7 +88,10 @@ const money = (value) => {
     minimumFractionDigits: 0
   })
 }
-const injectNewSubscription = (item) => items.push({ ...item, id: items.length + 1 })
+const injectNewSubscription = (item) => {
+  items.push({ ...item, id: items.length + 1 })
+  items.sort((a, b) => (a.title < b.title ? -1 : 1))
+}
 
 const addDialog = ref(false)
 </script>
