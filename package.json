@@ -1,8 +1,8 @@
 {
   "name": "subs",
-  "version": "0.0.1",
-  "description": "Subscription Manager",
-  "productName": "subs",
+  "version": "0.0.3",
+  "description": "Keep track of your streaming services, online accounts, and more.",
+  "productName": "Simple Subscription Center",
   "author": "Hélio <insign@gmail.com>",
   "private": true,
   "scripts": {
