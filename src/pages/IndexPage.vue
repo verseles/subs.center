@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, reactive, ref, watchPostEffect } from 'vue'
+import { computed, onBeforeMount, reactive, ref, watchPostEffect, onMounted } from 'vue'
 import AddSubscription from 'components/AddSubscription.vue'
 import { onlyHost } from 'components/onlyHost'
 import { welcomeItems } from 'components/welcomeItems'
@@ -51,6 +51,12 @@ onBeforeMount(() => {
   if (savedItems) {
     items = reactive(savedItems)
   }
+})
+
+onMounted(() => {
+  $q.notify({
+    message: 'Slide an item to delete it'
+  })
 })
 
 watchPostEffect(() => {
