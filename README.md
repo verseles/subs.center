@@ -2,7 +2,7 @@
 
 #### Keep track of your streaming services, online accounts, and more.
 
-https://subs.center
+https://subs.helio.me
 
 ## Features
 
