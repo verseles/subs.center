@@ -2,8 +2,8 @@
   <q-page>
     <q-list>
       <q-slide-item
-        v-for="item in items"
-        :key="itemKey(item)"
+        v-for="item in subscriptions.items"
+        :key="item.id"
         class="q-my-sm"
         right-color="negative"
         @right="({ reset }) => deleteItem({ item, reset })"
@@ -34,28 +34,21 @@
     </q-page-sticky>
 
     <q-dialog v-model="addDialog" position="top">
-      <add-subscription :items="items" @add="injectNewSubscription" />
+      <add-subscription :items="subscriptions.items" @add="injectNewSubscription" />
     </q-dialog>
   </q-page>
 </template>
 
 <script setup>
-import { computed, onBeforeMount, reactive, ref, watchPostEffect, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import AddSubscription from 'components/AddSubscription.vue'
 import SubscriptionFavicon from 'components/SubscriptionFavicon.vue'
 import { onlyHost } from 'components/onlyHost'
-import { welcomeItems } from 'components/welcomeItems'
 import { useQuasar } from 'quasar'
 import { Currency } from '@depay/local-currency'
-
-let items = reactive(welcomeItems)
-
-onBeforeMount(() => {
-  const savedItems = $q.localStorage.getItem('subscriptions')
-  if (savedItems) {
-    items = reactive(savedItems)
-  }
-})
+import {
+  subscriptions, addSubscription, removeSubscription, restoreSubscription
+} from 'src/services/subscriptions'
 
 onMounted(() => {
   $q.notify({
@@ -63,29 +56,13 @@ onMounted(() => {
   })
 })
 
-watchPostEffect(() => {
-  if (Number.isInteger(totalCost.value)) {
-    $q.localStorage.set('subscriptions', items)
-  }
-})
-
 const $q = useQuasar()
-const itemKeys = new WeakMap()
 const loadedFavicons = new WeakMap()
-let nextItemKey = 0
-
-const itemKey = (item) => {
-  if (!itemKeys.has(item)) {
-    itemKeys.set(item, ++nextItemKey)
-  }
-  return itemKeys.get(item)
-}
 const rememberFavicon = (item, url) => {
   loadedFavicons.set(item, { host: onlyHost(item.url), url })
 }
 const deleteItem = ({ item, reset }) => {
-  const pos = items.indexOf(item)
-  items.splice(pos, 1)
+  removeSubscription(item.id)
   $q.notify({
     message: 'Subscription removed',
     color: 'neutral',
@@ -94,7 +71,7 @@ const deleteItem = ({ item, reset }) => {
       {
         label: 'undo',
         handler: () => {
-          items.splice(pos, 0, item)
+          restoreSubscription(item.id)
         }
       }
     ]
@@ -116,7 +93,7 @@ const favicon = (item) => {
   return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`
 }
 
-const totalCost = computed(() => items.reduce((acc, item) => acc + Math.ceil(item.cost), 0))
+const totalCost = computed(() => subscriptions.items.reduce((acc, item) => acc + Math.ceil(item.cost), 0))
 const money = (value) => {
   return new Currency({ amount: value }).toString({
     maximumFractionDigits: 0,
@@ -124,8 +101,7 @@ const money = (value) => {
   })
 }
 const injectNewSubscription = (item) => {
-  items.push({ ...item, id: items.length + 1 })
-  items.sort((a, b) => (a.title < b.title ? -1 : 1))
+  addSubscription(item)
 }
 
 const addDialog = ref(false)

@@ -7,11 +7,12 @@
           My Subscriptions
         </q-toolbar-title>
         <q-btn
-          :icon="$q.dark.isActive ? 'light_mode' : 'dark_mode'"
+          icon="settings"
+          aria-label="Settings"
           :ripple="false"
           flat
           round
-          @click="$q.dark.toggle"
+          to="/settings"
         />
       </q-toolbar>
     </q-header>

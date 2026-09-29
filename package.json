@@ -6,9 +6,9 @@
   "author": "Hélio <insign@gmail.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue ./",
+    "lint": "eslint --ext .js,.mjs,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0",
+    "test": "node --test test/*.test.mjs",
     "dev": "quasar dev",
     "build": "npm run build:pwa",
     "build:spa": "quasar build --mode spa",
