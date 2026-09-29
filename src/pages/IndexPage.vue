@@ -3,7 +3,7 @@
     <q-list>
       <q-slide-item
         v-for="item in items"
-        :key="item.id"
+        :key="itemKey(item)"
         class="q-my-sm"
         right-color="negative"
         @right="({ reset }) => deleteItem({ item, reset })"
@@ -14,7 +14,10 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar :square="item.square">
-              <img :src="favicon(item)" />
+              <subscription-favicon
+                :url="item.url"
+                @loaded="rememberFavicon(item, $event)"
+              />
             </q-avatar>
           </q-item-section>
           <q-item-section>
@@ -39,6 +42,7 @@
 <script setup>
 import { computed, onBeforeMount, reactive, ref, watchPostEffect, onMounted } from 'vue'
 import AddSubscription from 'components/AddSubscription.vue'
+import SubscriptionFavicon from 'components/SubscriptionFavicon.vue'
 import { onlyHost } from 'components/onlyHost'
 import { welcomeItems } from 'components/welcomeItems'
 import { useQuasar } from 'quasar'
@@ -66,6 +70,19 @@ watchPostEffect(() => {
 })
 
 const $q = useQuasar()
+const itemKeys = new WeakMap()
+const loadedFavicons = new WeakMap()
+let nextItemKey = 0
+
+const itemKey = (item) => {
+  if (!itemKeys.has(item)) {
+    itemKeys.set(item, ++nextItemKey)
+  }
+  return itemKeys.get(item)
+}
+const rememberFavicon = (item, url) => {
+  loadedFavicons.set(item, { host: onlyHost(item.url), url })
+}
 const deleteItem = ({ item, reset }) => {
   const pos = items.indexOf(item)
   items.splice(pos, 1)
@@ -85,7 +102,19 @@ const deleteItem = ({ item, reset }) => {
   reset()
 }
 
-const favicon = (item) => `https://www.google.com/s2/favicons?domain=${onlyHost(item.url)}&sz=128`
+const favicon = (item) => {
+  const host = onlyHost(item.url)
+  const loaded = loadedFavicons.get(item)
+  if (loaded?.host === host) return loaded.url
+
+  let domain = host
+  try {
+    domain = new URL(`https://${host}`).hostname
+  } catch {
+    domain = host
+  }
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`
+}
 
 const totalCost = computed(() => items.reduce((acc, item) => acc + Math.ceil(item.cost), 0))
 const money = (value) => {
